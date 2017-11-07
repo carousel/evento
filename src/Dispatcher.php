@@ -17,7 +17,11 @@ class Dispatcher
     }
     public function removeListener($listener)
     {
-        unset($this->listeners[$listener]);
+            foreach ($this->listeners as $key => $val) {
+                if(get_class($listener) == get_class($val)){
+                    unset($this->listeners[$key]);
+                }
+            }
     }
     public function dispatch($event)
     {

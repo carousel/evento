@@ -36,6 +36,19 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
         $this->dispatcher->dispatch($event);
         $this->assertEquals($listener->message, 'Notified!!!');
     }
+    /**
+     * Test that dispatcher can dispatch event
+     *
+     * @test
+     */
+    public function listenerCabBeRemoved()
+    {
+        $listener = new UserCreatedListener;
+        $this->dispatcher->registerListener($listener);
+        $this->assertTrue(in_array($listener, $this->dispatcher->listeners));
+        $this->dispatcher->removeListener($listener);
+        $this->assertFalse(in_array($listener, $this->dispatcher->listeners));
+    }
 }
 
 class UserCreated extends AbstractEvent
