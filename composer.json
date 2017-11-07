@@ -6,6 +6,7 @@
         "carousel",
         "evento"
     ],
+    "minimun-stability": "dev",
     "homepage": "https://github.com/carousel/evento",
     "license": "MIT",
     "authors": [
