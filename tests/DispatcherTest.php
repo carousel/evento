@@ -26,7 +26,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
     public function dispatcherCanDispatchEvent()
     {
         $listener = new UserCreatedListener;
-        $this->dispatcher->registerListener($listener);
+        $this->dispatcher->subscribe($listener);
         $this->dispatcher->registerEvent(new UserCreated);
         $event = new UserCreated;
         $this->dispatcher->dispatch($event);
@@ -38,18 +38,10 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
     public function listenerCabBeRemoved()
     {
         $listener = new UserCreatedListener;
-        $this->dispatcher->registerListener($listener);
+        $this->dispatcher->subscribe($listener);
         $this->assertTrue(in_array($listener, $this->dispatcher->listeners));
-        $this->dispatcher->removeListener($listener);
+        $this->dispatcher->unsubscribe($listener);
         $this->assertFalse(in_array($listener, $this->dispatcher->listeners));
-    }
-    /**
-    * @test
-    */
-    public function listenerCanBeFetchedFromAFile()
-    {
-        $fileListeners = $this->dispatcher->getListenerFromConfigFile(__DIR__ . '/event_listeners.php');
-        $this->assertTrue(in_array('UserCreatedListener', $fileListeners));
     }
 }
 

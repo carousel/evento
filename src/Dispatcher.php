@@ -18,7 +18,7 @@ class Dispatcher
     {
         $this->events[] = $event;
     }
-    public function registerListener($listener)
+    public function subscribe($listener)
     {
         $this->listeners[] = $listener;
     }
@@ -30,7 +30,7 @@ class Dispatcher
             throw new FileDoesNotExistsException('Event config file does not exists!');
         }
     }
-    public function removeListener($listener)
+    public function unsubscribe($listener)
     {
         foreach ($this->listeners as $key => $val) {
             if (get_class($listener) == get_class($val)) {
