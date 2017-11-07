@@ -1,4 +1,4 @@
-# Evento - PHP project that implements observer pattern
+# Evento - publish/subscribe pattern for PHP projects
 
 miroslav.trninic@gmail.com
 

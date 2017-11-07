@@ -4,23 +4,29 @@ namespace Carousel\Evento;
 
 class Dispatcher
 {
-    /**
-     * Create a new Skeleton Instance
-     */
-    public function __construct()
-    {
-        // constructor body
-    }
+    public $listeners = [];
+    public $events = [];
 
-    /**
-     * Friendly welcome
-     *
-     * @param string $phrase Phrase to return
-     *
-     * @return string Returns the phrase passed in
-     */
-    public function echoPhrase($phrase)
+    public function registerEvent($event)
     {
-        return $phrase;
+        $this->events[] = $event;
+    }
+    public function registerListener($listener)
+    {
+        $this->listeners[] = $listener;
+    }
+    public function removeListener($listener)
+    {
+        unset($this->listeners[$listener]);
+    }
+    public function dispatch($event)
+    {
+        if (count($this->listeners) != 0) {
+            foreach ($this->listeners as $listener) {
+                if(get_class($event) . "Listener"  == get_class($listener)){
+                    $listener->update($event);
+                }
+            }
+        }
     }
 }

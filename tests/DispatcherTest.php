@@ -23,12 +23,34 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Carousel\Evento\Dispatcher', $this->dispatcher);
     }
     /**
-     * Test that dispatcher instance exists
+     * Test that dispatcher can dispatch event
      *
      * @test
      */
-    public function dispatcherCanEchoPhrase()
+    public function dispatcherCanDispatchEvent()
     {
-        $this->assertEquals('Hello Dispatcher', $this->dispatcher->echoPhrase('Hello Dispatcher'));
+        $listener = new UserCreatedListener;
+        $this->dispatcher->registerListener($listener);
+        $this->dispatcher->registerEvent(new UserCreated);
+        $event = new UserCreated;
+        $this->dispatcher->dispatch($event);
+        $this->assertEquals($listener->message, 'Notified!!!');
+    }
+}
+
+class UserCreated extends AbstractEvent
+{
+    public $message = "Notified!!!";
+    public function publish()
+    {
+        $this->dispatcher->dispatch($this);
+    }
+}
+class UserCreatedListener
+{
+    public $message;
+    public function update($event)
+    {
+        $this->message = $event->message;
     }
 }
