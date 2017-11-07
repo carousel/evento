@@ -8,7 +8,7 @@ abstract class AbstractEvent
 {
     public function __construct()
     {
-        $this->dispatcher = new Dispatcher;
+        $this->dispatcher = Dispatcher::getInstance();
     }
     
     abstract protected function publish();

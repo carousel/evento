@@ -11,11 +11,9 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
     */
     public function setUp()
     {
-        $this->dispatcher = new Dispatcher;
+        $this->dispatcher = Dispatcher::getInstance();
     }
     /**
-     * Test that dispatcher instance exists
-     *
      * @test
      */
     public function dispatcherCanBeInstantiated()
@@ -23,8 +21,6 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('Carousel\Evento\Dispatcher', $this->dispatcher);
     }
     /**
-     * Test that dispatcher can dispatch event
-     *
      * @test
      */
     public function dispatcherCanDispatchEvent()
@@ -37,8 +33,6 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($listener->message, 'Notified!!!');
     }
     /**
-     * Test that dispatcher can dispatch event
-     *
      * @test
      */
     public function listenerCabBeRemoved()
@@ -48,6 +42,14 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(in_array($listener, $this->dispatcher->listeners));
         $this->dispatcher->removeListener($listener);
         $this->assertFalse(in_array($listener, $this->dispatcher->listeners));
+    }
+    /**
+    * @test
+    */
+    public function listenerCanBeFetchedFromAFile()
+    {
+        $fileListeners = $this->dispatcher->getListenerFromConfigFile(__DIR__ . '/event_listeners.php');
+        $this->assertTrue(in_array('UserCreatedListener', $fileListeners));
     }
 }
 
